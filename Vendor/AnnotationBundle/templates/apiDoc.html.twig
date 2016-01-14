@@ -1,0 +1,101 @@
+{% extends "base.html.twig" %}
+{% block keywords %}{{ title.title }}{% endblock %}
+
+{% block description %}{{ title.description }}-{{ title.title }}{% endblock %}
+
+{% block title %}{{ title.title }}{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <h1>{{ title.title }}</h1>
+        <p>{{ comment.comment }}</p>
+    </div>
+
+    <div class="row api-box">
+        <h4>{{ url.description }} : <a href="{{ url.url }}"><code>{{ url.url }}</code></a></h4>
+        <h4>{{ method.description }} : <kbd>{{ method.method }}</kbd></h4>
+    </div>
+
+    <div class="row api-box param">
+        {% if param %}
+            <h4>请求参数</h4>
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th width="10%">参数名称</th>
+                    <th width="5%">参数类型</th>
+                    <th width="5%">是否必须</th>
+                    <th width="8%">默认值</th>
+                    <th width="10%">参数长度限制</th>
+                    <th width="5%">最大值</th>
+                    <th width="5%">最小值</th>
+                    <th width="22%">标签</th>
+                    <th>描述</th>
+                </tr>
+                {% for datas in param if param %}
+                    <tr>
+                        <td>{{ datas.name }}</td>
+                        <td>{{ datas.description }}</td>
+                        <td>{% if datas.require %}<span class="label label-danger">必须</span>{% else %}<span
+                                    class="label label-danger">可选</span>{% endif %}</td>
+                        <td>{% if datas.options.default %}{{ datas.options.default }}{% else %}空{% endif %}</td>
+                        <td>{% if datas.length %}{{ datas.length }}{% else %}无限制{% endif %}</td>
+                        <td>{% if datas.max %}{{ datas.max }}{% else %}无限制{% endif %}</td>
+                        <td>{% if datas.min %}{{ datas.min }}{% else %}无限制{% endif %}</td>
+                        <td>
+                            {% if datas.tags %}
+                                {% for tag in tags %}
+                                    {{ tag }}
+                                {% endfor %}
+                            {% else %}
+                                仅枚举类型有标签
+                            {% endif %}
+                        </td>
+                        <td>{{ datas.options.comment }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+
+    <div class="row api-box rparam">
+        {% if rparam %}
+            <h4>返回参数</h4>
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th width="10%">参数名称</th>
+                    <th width="5%">参数类型</th>
+                    <th width="5%">是否必须</th>
+                    <th width="8%">默认值</th>
+                    <th width="10%">参数长度限制</th>
+                    <th width="5%">最大值</th>
+                    <th width="5%">最小值</th>
+                    <th width="22%">标签</th>
+                    <th>描述</th>
+                </tr>
+                {% for datas in rparam if rparam %}
+                    <tr>
+                        <td>{{ datas.name }}</td>
+                        <td>{{ datas.description }}</td>
+                        <td>{% if datas.require %}<span class="label label-danger">必须</span>{% else %}<span
+                                    class="label label-danger">可选</span>{% endif %}</td>
+                        <td>{% if datas.options.default %}{{ datas.options.default }}{% else %}空{% endif %}</td>
+                        <td>{% if datas.length %}{{ datas.length }}{% else %}无限制{% endif %}</td>
+                        <td>{% if datas.max %}{{ datas.max }}{% else %}无限制{% endif %}</td>
+                        <td>{% if datas.min %}{{ datas.min }}{% else %}无限制{% endif %}</td>
+                        <td>
+                            {% if datas.tags %}
+                                {% for tag in datas.tags %}
+                                    <span class="label label-info">{{ tag }}</span>
+                                {% endfor %}
+                            {% else %}
+                                仅枚举类型有标签
+                            {% endif %}
+                        </td>
+                        <td>{{ datas.options.comment }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+
+{% endblock %}
